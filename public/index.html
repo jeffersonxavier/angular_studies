@@ -2,35 +2,21 @@
 <html lang="pt-br" ng-app="alurapic">
   <head>
     <meta charset="UTF-8">
+    <base href="/">
     <meta name="viewport" content="width=device-width">
     <title>Alurapic</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/efeitos.css">
   </head>
-  <body ng-controller="FotosController">
+  <body>
     <div class="container">
-      <div class="jumbotron">
-        <h1 class="text-center">Alurapic</h1>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <form>
-            <input class="form-control" ng-model="filtro" type="text" placeholder="Filtrar">
-          </form>
-        </div>
-      </div>
-
-      <div class="row">
-        <meu-painel class="col-md-2 painel-animado" ng-model-options="{debounce: 500}" ng-repeat="foto in fotos | filter: filtro" titulo="{{foto.titulo}}">
-          <img class="img-responsive center-block" src="{{foto.url}}" alt="{{foto.titulo}}">
-        </meu-painel>
-      </div>
+      <ng-view></ng-view>
     </div>
 
     <script src="js/lib/angular.min.js" ></script>
     <script src="js/lib/angular-animate.min.js"></script>
+    <script src="js/lib/angular-route.min.js"></script>
     <script src="js/main.js" ></script>
     <script src="js/controllers/fotos-controller.js"></script>
     <script src="js/directives/minhas-diretivas.js"></script>

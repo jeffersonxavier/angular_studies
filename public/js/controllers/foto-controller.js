@@ -1,20 +1,44 @@
-angular.module('alurapic').controller('FotoController', function($scope, $http) {
+angular.module('alurapic')
+.controller('FotoController', function($scope, $http, $routeParams) {
   
   $scope.foto = {};
-  $scope.menssagem = '';
+  $scope.mensagem = '';
+
+  if($routeParams.id) {
+    console.log('encontrou id.....');
+    $http.get('v1/fotos/' + $routeParams.id)
+    .success(function(foto) {
+      $scope.foto = foto;
+    })
+    .error(function(err) {
+      console.log(err);
+      $scope.mensagem = 'Não foi possível encontrar a foto com o id ' + $routeParams.id;
+    });
+  }
 
   $scope.submeter = function() {
     if ($scope.formulario.$valid) {
-      $http.post('v1/fotos', $scope.foto)
-      .success(function() {
-        $scope.menssagem = "Foto incluída!";
-        console.log("Foto incluída!");
-        $scope.foto = {};      
-      })
-      .error(function(err) {
-        $scope.menssagem = "Erros encontrados";
-        console.log(err);
-      });
+      if ($scope.foto._id) {
+        $http.put('v1/fotos/' + $scope.foto._id, $scope.foto)
+        .success(function() {
+          $scope.mensagem = "Foto alterada!";
+        })
+        .error(function(err) {
+          $scope.mensagem = "Erros encontrados";
+          console.log(err);
+        });
+      }
+      else {
+        $http.post('v1/fotos', $scope.foto)
+        .success(function() {
+          $scope.mensagem = "Foto incluída!";
+          $scope.foto = {};
+        })
+        .error(function(err) {
+          $scope.mensagem = "Erros encontrados";
+          console.log(err);
+        });
+      }
     }
   };
 });

@@ -34,4 +34,33 @@ angular.module('minhasDiretivas', [])
     ddo.template = '<button ng-click="acao(foto)" class="btn btn-danger btn-block">{{nome}}</button>';
 
     return ddo;
-  });
+  })
+  .directive('meuFocusComWatch', function() {
+    return {
+      restrict: "A",
+
+      scope: {
+        focado: '=',
+      },
+
+      link: function(scope, element) {
+        scope.$watch('focado', function() {
+          if (scope.focado) {
+            element[0].focus();
+            scope.focado = false;
+          }
+        });
+      },
+    };
+  })
+  .directive('meuFocusComOn', function() {
+    return {
+      restrict: "A",
+
+      link: function(scope, element) {
+        scope.$on('fotoCadastrada', function() {
+          element[0].focus();
+        });
+      },
+    };
+  })
